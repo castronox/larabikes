@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\BikeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+
+Route::resource('bikes', BikeController::class);
+
+Route::get('bikes/{bike}/delete', [BikeController::class, 'destroy'])
+    ->name('bikes.delete');             // Eliminar moto.
