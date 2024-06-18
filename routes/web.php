@@ -23,4 +23,4 @@ Route::get('/', function () {
 Route::resource('bikes', BikeController::class);
 
 Route::get('bikes/{bike}/delete', [BikeController::class, 'destroy'])
-    ->name('bikes.delete');             // Eliminar moto.
+    ->name('bikes.delete');             // Eliminar moto.php 

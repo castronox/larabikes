@@ -4,16 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Pagination Language Lines
+    | Líneas de Lenguaje para Paginación
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
+    | Las siguientes líneas de lenguaje son utilizadas por la biblioteca del
+    | paginador para construir los enlaces de paginación simples. Eres libre de
+    | cambiarlas a lo que quieras para personalizar tus vistas y que se ajusten
+    | mejor a tu aplicación.
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
+    'bikes' => env('BIKES_PER_PAGE', 8)
 
 ];
