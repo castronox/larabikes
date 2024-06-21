@@ -150,12 +150,16 @@
         <br><br><br>
 
         <script>
-            var motos={!! json_enconde($bikes) !!};
+            var motos= {!! json_encode($bikes) !!};
             var indice= 0;
-            setInterval(function() => {
-                info.innerHTML = motos.data[inidice].marca+
+
+            setInterval(function(){
+                info.innerHTML = motos.data[indice].marca+' '+motos.data[indice].modelo;
+                indice = ++indice%motos.data.length;
             }, 2000);
         </script>
+
+        <p>Estas són algunas de nuestras motos: <span id= "info"></span></p>
     </main>
 
     <!-- PARTE INFERIOR -->
