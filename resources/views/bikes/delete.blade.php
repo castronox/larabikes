@@ -14,7 +14,6 @@
     <style>
         body {
             background-color: #f8f9fa;
-        
         }
 
         .jumbotron {
@@ -57,7 +56,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active"  href="{{ url('/') }}">Inicio</a>
+                        <a class="nav-link active" href="{{ url('/') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('bikes.index') }}">Garaje</a>
@@ -71,30 +70,34 @@
     </nav>
 
     <!-- PARTE CENTRAL -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-4">Primer ejemplo con Laravel</h1>
-            <p class="lead">Bienvenido a LaraBikes. Implementación de un <strong>CRUD</strong> de motos.</p>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-12 col-md-8 offset-md-2">
-                    <img class="img-fluid rounded" src="{{ asset('images/bikes/moto_recien_estrenada.jpg') }}"
-                        alt="Moto recién estrenada">
-                </div>
-            </div>
+    <h1 class="my-2">Gestor de motos de Larabikes</h1>
+
+    <main>
+
+        <h2>Borrado de la moto {{"$bike->marca $bike->modelo"}}</h2>
+
+
+            <form method="POST" class="my-2 border p-5" action="{{route('bikes.destroy', $bike->id)}}">
+                {{ csrf_field() }}
+                <input name="_method" type="hidden" value="DELETE">
+                <label for="confirmdelete">Seguro que quieres BORRAR la {{"$bike->marca $bike->modelo"}}: </label>
+
+                <input type="submit" alt="Borrar" title="borrar" class="btn btn-danger m-4" value="Borrar" id="confirmdelete">
+
+            </form>
+
+        
+        <div class="btn-group" role="group" aria-label="Links">
+        <a href="{{url('/')}}" class="btn btn-primary m-2">Inicio</a>
+        <a href="{{route('bikes.index')}}" class="btn btn-primary m-2">Garaje</a>
         </div>
-    </div>
 
-
-
-
-
+    </main>
 
     <!-- PARTE INFERIOR -->
     <footer class="footer mt-auto py-3">
         <div class="container text-center">
-            <p class="text-muted">Aplicación creada por Cristian Castro como ejemplo de clase desarrollada y haciendo
-                uso de Bootstrap y Laravel.</p>
+            <p class="text-muted">Aplicación creada por Cristian Castro como ejemplo de clase desarrollada y haciendo uso de Bootstrap y Laravel.</p>
         </div>
     </footer>
 

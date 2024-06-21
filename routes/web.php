@@ -18,9 +18,9 @@ Route::get('/', function () {
 });
 
 
+Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
+    ->name('bikes.delete');             // Eliminar moto.php 
 
 
 Route::resource('bikes', BikeController::class);
 
-Route::get('bikes/{bike}/delete', [BikeController::class, 'destroy'])
-    ->name('bikes.delete');             // Eliminar moto.php 

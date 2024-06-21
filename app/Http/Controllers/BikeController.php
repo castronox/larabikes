@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Bike;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class BikeController extends Controller
 {
@@ -15,7 +16,7 @@ class BikeController extends Controller
     {
         # Recupera las motos de la BBDD usando el modelo
         # Ordenado por id descendente y paginación de 10 resultados por página
-        $bikes = Bike::orderBy('id', 'DESC')->paginate(config('pagnation.bikes', 10));
+        $bikes = Bike::orderBy('id', 'DESC')->paginate(config('pagination.bikes', 10));
 
         # Total de motos en la BBDD ( para mostrar )
         $total = Bike::count();
@@ -23,7 +24,7 @@ class BikeController extends Controller
         #Carga la vista para el listado
         # La vista se llamará list.blade.php y que se encontrará en la carpeta bikes
         # a las vistas hay que pasarles los datos a modo de array asociativo
-        return view('bikes.list', ['bikes' => $bikes, 'total' => $total]);
+        return View::make('bikes.list', ['bikes'=>$bikes, 'total'=>$total]);
     }
 
     /**
@@ -120,6 +121,13 @@ class BikeController extends Controller
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada satisfactoriamente");
     }
 
+
+
+    public function delete($id){
+
+        return view('bikes.delete', ['bike' => Bike::findOrFail($id)]);
+    }
+
     /**
      * Eliminar el recurso especificado del almacenamiento.
      *
@@ -128,6 +136,7 @@ class BikeController extends Controller
      */
     public function destroy($id)
     {
+        
         # Busca la moto seleccionada 
         $bike = Bike::findOrFail($id);
 
@@ -135,7 +144,7 @@ class BikeController extends Controller
         $bike->delete();
 
         # Redirige a la lista de motos
-        return resirect ('bikes')
+        return redirect ('bikes')
         ->with ('success', "Moto $bike->marca $bike->marca $bike->modelo eliminada.");
     }
 }
