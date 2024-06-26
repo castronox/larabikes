@@ -1,78 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name') }} - PORTADA</title>
-
-    <!-- Carga del CSS de Bootstrap -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-
-    <!-- Estilos adicionales -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .jumbotron {
-            background-color: #063e4552;
-            color: #fff;
-            padding: 2rem;
-            border-radius: 0;
-        }
-
-        .jumbotron h1,
-        .jumbotron p {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar .nav-link {
-            color: #fff;
-        }
-
-        .footer {
-            background-color: #343a40;
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body class="container p-3">
-
-    <!-- PARTE SUPERIOR -->
-    <nav class="navbar navbar-expand-lg navbar-dark mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="#">LaraBikes</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('bikes.index') }}">Garaje</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('bikes.create') }}">Nueva Moto</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+@section('titulo', 'Nueva Moto')
     <!-- PARTE CENTRAL -->
-    <h1 class="my-2">Gestor de motos de LaraBikes</h1>
+    {{-- <h1 class="my-2">Gestor de motos de LaraBikes</h1>
     <main>
-        <h2>Nueva Moto</h2>
+        <h2>Nueva Moto</h2> --}}
+
+        
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -83,7 +17,7 @@
                 </ul>
             </div>
         @endif
-
+        @section('contenido')
         <form class="my-2 border p-5 bg-light shadow-sm" method="POST" action="{{ route('bikes.store') }}">
             {{ csrf_field() }}
             <div class="form-group row">
@@ -131,25 +65,16 @@
                 </div>
             </div>
         </form>
+        @endsection
 
-        <div class="btn-group mt-3" role="group" aria-label="Links">
-            <a href="{{ url('/') }}" class="btn btn-primary">Inicio</a> &nbsp;
-            <a href="{{ route('bikes.index') }}" class="btn btn-primary">Garaje</a>
-        </div>
+        @section('enlaces')
+            @parent
+            <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
+        @endsection
         <br><br>
     </main>
 
-    <!-- PARTE INFERIOR -->
-    <footer class="footer mt-auto py-3">
-        <div class="container text-center">
-            <p class="text-muted">Aplicación creada por Cristian Castro como ejemplo de clase desarrollada y haciendo uso de Bootstrap y Laravel.</p>
-        </div>
-    </footer>
 
-    <!-- Scripts de Bootstrap (jQuery primero, luego Popper.js, luego Bootstrap JS) -->
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/popper.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>
 
 </html>
