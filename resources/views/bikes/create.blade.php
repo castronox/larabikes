@@ -1,22 +1,7 @@
 @extends('layouts.master')
 
 @section('titulo', 'Nueva Moto')
-    <!-- PARTE CENTRAL -->
-    {{-- <h1 class="my-2">Gestor de motos de LaraBikes</h1>
-    <main>
-        <h2>Nueva Moto</h2> --}}
 
-        
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
         @section('contenido')
         <form class="my-2 border p-5 bg-light shadow-sm" method="POST" action="{{ route('bikes.store') }}">
             {{ csrf_field() }}
