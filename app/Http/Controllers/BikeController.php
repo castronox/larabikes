@@ -19,12 +19,12 @@ class BikeController extends Controller
         $bikes = Bike::orderBy('id', 'DESC')->paginate(config('pagination.bikes', 10));
 
         # Total de motos en la BBDD ( para mostrar )
-        $total = Bike::count();
+        # $total = Bike::count(); // Lo trsladamos a un viewcomposer
 
         #Carga la vista para el listado
         # La vista se llamará list.blade.php y que se encontrará en la carpeta bikes
         # a las vistas hay que pasarles los datos a modo de array asociativo
-        return View::make('bikes.list', ['bikes'=>$bikes, 'total'=>$total]);
+        return view('bikes.list', ['bikes'=>$bikes]);
     }
 
     /**

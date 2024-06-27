@@ -82,7 +82,7 @@
 
         @includeWhen(Session::has('success'), 'layouts.success')
         @includeWhen($errors->any(), 'layouts.error')
-
+            <p>Contamos con un catálogo de {{$total}} motos.</p>
         @yield('contenido')
 
         <div class="btn-group" role="group" aria-label="Links">
@@ -101,7 +101,7 @@
     @section('pie')
         <footer class="footer mt-auto py-3">
             <div class="container text-center">
-                <p class="text-muted">Aplicación creada por Cristian Castro como ejemplo de clase desarrollada y haciendo
+                <p class="text-muted">Aplicación creada por {{$autor}} como ejemplo de clase desarrollada y haciendo
                     uso de Bootstrap y Laravel.</p>
             </div>
         </footer>
