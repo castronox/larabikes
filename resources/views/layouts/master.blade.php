@@ -47,6 +47,7 @@
 
     <!-- PARTE SUPERIOR -->
     @section('navegacion')
+    @php($pagina = $pagina ?? '')
         <nav class="navbar navbar-expand-lg navbar-dark mb-3">
             <div class="container">
                 <a class="navbar-brand" href="#">LaraBikes</a>
@@ -57,13 +58,16 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ url('/') }}">Inicio</a>
+                            <a class="nav-link {{$pagina=='portada' ? 'active' : ''}} " 
+                            href="{{ url('/') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('bikes.index') }}">Garaje</a>
+                            <a class="nav-link {{$pagina=='listamotos' ? 'active' : ''}} " 
+                            href="{{ route('bikes.index') }}">Garaje</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('bikes.create') }}">Nueva Moto</a>
+                            <a class="nav-link {{$pagina=='nuevamoto' ? 'active' : ''}}  " 
+                            href="{{ route('bikes.create') }}">Nueva Moto</a>
                         </li>
                     </ul>
                 </div>

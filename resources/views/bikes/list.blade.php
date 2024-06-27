@@ -1,3 +1,5 @@
+@php($pagina='listamotos')
+
 @extends('layouts.master')
 
 @section('titulo', 'Lista de Motos')
