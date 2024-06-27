@@ -1,3 +1,6 @@
-<div>
-    <p>Probando el nuevo componente :D </p>
+<div class="alert alert-{{$type}}">
+    
+    <p>{{$message}}</p>
+
+    {{ $slot }}
 </div>

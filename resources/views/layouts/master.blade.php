@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
+@env(['local' , 'test'])
+<div class="alert alert-warning">
+    <b>Atención !!! </b>estás probando la App en modo local o test.
+    <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
+</div>
+@endenv
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,14 +80,28 @@
         </nav>
     @show
     <!-- PARTE CENTRAL -->
-    <h1 class="my-2">Gestor de motos de Larabikes</h1>
+    <h1 class="my-2">{{config('app.name')}}</h1>
 
     <main>
         <h2>@yield('titulo')</h2>
 
-        @includeWhen(Session::has('success'), 'layouts.success')
-        @includeWhen($errors->any(), 'layouts.error')
-            <p>Contamos con un catálogo de {{$total}} motos.</p>
+        @if (Session::has('success'))
+        <x-alert type="success" message="{{ Session::get('success')}}"/>
+        @endif
+
+        @if($errors->any())
+        
+        <x-alert type="danger" message="Se han producido errores:" >
+            <ul>
+                @foreach ($errors->all() as $error )
+                    <li>
+                        {{$error}}
+                    </li>
+                @endforeach
+            </ul>
+        </x-alert>
+        
+        @endif
         @yield('contenido')
 
         <div class="btn-group" role="group" aria-label="Links">

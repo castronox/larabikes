@@ -45,7 +45,7 @@
 
         <div class="form-group row">
             <button type="submit" class="btn btn-success mt-5 m-2">Guardar</button>
-            <button type="reset" class="btn btn-secondary m-2">Borrar</button>
+            <button type="reset" class="btn btn-secondary mt-5 m-2">Borrar</button>
         </div>
     </form>
 

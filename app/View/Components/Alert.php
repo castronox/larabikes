@@ -3,20 +3,28 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use PharIo\Manifest\ComponentElement;
 
-class Alert extends Component{
+class Alert extends Component
+{
+    public string $type;
+    public string $message;
 
-    # Crea un nuevo componente instanciado. 
-    public function __construct(){
-
-        //
+    // Crear una nueva instancia del componente.
+    public function __construct(string $type = 'warning', string $message = '')
+    {
+        $this->type = $type;
+        $this->message = $message;
     }
 
-    # Captura la vista / contiene la representación del Componente 
-
-    public function render (){
-
-        return view ('components.alert');
+    // Capturar la vista / contiene la representación del Componente.
+    public function render()
+    {
+        return <<<'blade'
+        
+        <div class="alert alert-{{ $type }}">
+            <p>{{ $message }} </p>
+            {{$slot}}
+        </div>
+        blade;
     }
 }
