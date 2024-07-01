@@ -27,6 +27,31 @@ class BikeController extends Controller
         return view('bikes.list', ['bikes'=>$bikes]);
     }
 
+    public function search(Request $request, $marca = null, $modelo = null){
+
+        #Toma los valores que llegan para marca y modelo 
+        #Pueden llegar via URL o via Query STRING 
+        #Por defecto le asignameros ''
+        $marca = $marca ?? $request->input('marca', '');
+        $modelo = $modelo ?? $request->input('modelo', '');
+
+
+        #Recupera los resultados, se añade marca y modelo al paginador
+        #Para que mantenga el filtro al pasar de página
+        $bikes = Bike::where('marca', 'like', "%$marca%")
+                    ->where('modelo', 'like', "%$modelo%")
+                    ->paginate(config('paginator.bikes',5))
+                    ->appends(['marca' => $marca, 'modelo' => $modelo]);
+                    
+        
+        return view('bikes.list', [
+
+            'bikes' => $bikes,
+            'marca' => $marca,  # Para rellenar el input 'marca'
+            'modelo' => $modelo # Para rellenar 'modelo'
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,12 +92,8 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($bike)
     {
-        # Recupera la moto con el id deseado
-        # Si no la encuentra generará un error 404
-        $bike = Bike::findOrFail($id);
-
         # Carga la vista correspondiente y le pasa la moto
         return view('bikes.show', ['bike' => $bike]);
     }
@@ -83,12 +104,8 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($bike)
     {
-        # Recupera la moto con el id deseado
-        # Si no la encuentra generará un error 404
-        $bike = Bike::findOrFail($id);
-
         # Carga la vista con el formulario para modificar la moto
         return view('bikes.update', ['bike'=>$bike]);
     }
@@ -100,7 +117,7 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Bike $bike)
     {
         $request->validate([
             'marca' => 'required|max:255',
@@ -111,8 +128,6 @@ class BikeController extends Controller
 
         ]);
 
-        # Recupera la moto de la BBDD
-        $bike = Bike::findOrFail($id);
 
         # Actualiza
         $bike->update($request->all()+['matriculada'=>0]);
@@ -123,9 +138,9 @@ class BikeController extends Controller
 
 
 
-    public function delete($id){
+    public function delete( Bike $bike){
 
-        return view('bikes.delete', ['bike' => Bike::findOrFail($id)]);
+        return view('bikes.delete', ['bike' => $bike]);
     }
 
     /**
@@ -134,11 +149,8 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( Bike $bike)
     {
-        
-        # Busca la moto seleccionada 
-        $bike = Bike::findOrFail($id);
 
         #La borra de la base de datos 
         $bike->delete();

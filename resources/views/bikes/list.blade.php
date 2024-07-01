@@ -16,6 +16,19 @@
         </div>
     </div>
 
+    <form method="GET" class="col-6 row" action="{{route('bikes.search')}}">
+
+        <input name="marca" type="text" class="col form-control mr-2 mb-2" placeholder="Marca" maxlength="16" value="{{ $marca ?? '' }}">
+        <input name="modelo" type="text" class="col form-control mr-2 mb-2" placeholder="Modelo" maxlength="16" value="{{ $modelo ?? '' }}">
+
+        <button type="submit" class="col btn btn-primary mr-2 mb-2">Buscar</button>
+
+        <a href="{{ route('bikes.index') }}">
+            <button type="button" class="col btn btn-primary mb-2" >Quitar filtro</button>
+        </a>
+    </form>
+
+
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -46,10 +59,13 @@
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            
+            @if($loop->last)
             <tr>
-                <td colspan="4">Mostrando {{ sizeof($bikes) }} de {{ $total }}</td>
+                <td colspan="7">Mostrando {{ sizeof($bikes) }} de {{ $bikes->total() }}</td>
             </tr>
+            @endif
+            @endforeach
         </tbody>
     </table>
 

@@ -52,7 +52,7 @@
 
     <!-- PARTE SUPERIOR -->
     @section('navegacion')
-    @php($pagina = $pagina ?? '')
+    @php($pagina = Route::currentRouteName())
         <nav class="navbar navbar-expand-lg navbar-dark mb-3">
             <div class="container">
                 <a class="navbar-brand" href="#">LaraBikes</a>
@@ -64,14 +64,15 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link {{$pagina=='portada' ? 'active' : ''}} " 
-                            href="{{ url('/') }}">Inicio</a>
+                            href="{{ route('portada') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{$pagina=='listamotos' ? 'active' : ''}} " 
+                            <a class="nav-link {{$pagina=='bikes.index' ||
+                                                $pagina=='bikes.search' ? 'active' : '' }} " 
                             href="{{ route('bikes.index') }}">Garaje</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{$pagina=='nuevamoto' ? 'active' : ''}}  " 
+                            <a class="nav-link {{$pagina=='bikes.create' ? 'active' : ''}}  " 
                             href="{{ route('bikes.create') }}">Nueva Moto</a>
                         </li>
                     </ul>
