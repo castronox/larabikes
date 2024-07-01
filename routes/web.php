@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Middleware\EdgeRules;
+#use App\Http\Middleware\EdgeRules;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
