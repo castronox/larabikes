@@ -7,7 +7,7 @@
 
 @section('contenido')
 
-    <form method="POST" class="my-2 border p-5" action="{{ route('bikes.destroy', $bike->id) }}">
+    <form method="POST" class="my-2 border p-5" action="{{ URL::signedRoute('bikes.destroy', $bike->id) }}">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="DELETE">
         <label for="confirmdelete">Seguro que quieres BORRAR la {{ "$bike->marca $bike->modelo" }}: </label>
