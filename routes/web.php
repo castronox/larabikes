@@ -102,3 +102,119 @@ Route::fallback([WelcomeController::class, 'index']);
         // Route::get('/bikes/chollos/{precio}', function($precio){
         //     return view ('bikes.list', ['bikes' => $precio]);
         // });
+
+
+        # LARAVEL DIAPOSITIVA 15 PÁGINA 15
+        // Route::get('test', function(){
+        //         # Retorna el texto que se convertira en una response completa.
+        //         return 'Hola mundo!!';
+        // });
+
+
+        # Laravel 15 | pág 17-18
+        // Route::get('test', function(){
+        //     # Retorna un array que se convertirá en una response JSON completa
+        //     return [
+        //         'nombre' => 'Cristian',
+        //         'apellido' => 'Castro',
+        //         'edad' => NULL,
+        //         'vehiculo' => 'bicicleta',
+        //         'dorsal' => 32
+        //     ];
+        // });
+
+        
+        
+        # Laravel 15 | pág 28 
+        // Route::get('test', function(){
+
+        //     # Retorna un respuesta de texto, con código 200,
+        //     # Y con múltiples encabezados
+        //         return response('Anexando header', 200)
+
+        //             ->withHeaders([
+
+        //                 'Content-Type' => 'text/plain',
+        //                 'From' => 'Cristian Castro',
+        //                 'Place' => ' CIFO Sabadell',
+        //                 'Year' => ' 2024'
+
+        //             ]);
+
+        // });
+
+        
+        
+        # Laravel 15 | pág 32
+        // Route::get('test',function(){
+
+        //         return response()->make('Hola Mundo!', 200);
+
+        // });
+
+
+        # Laravel 15 | pág 33
+
+        // Route::get('test', function(){
+        //     # Retorna respuesta sin contenido.
+        //     return response()->noContent(200);
+        // });
+
+        
+        # Laravel 15 | pág 35
+        // Route::get('test', function(){
+
+        //     #Equivale a return view 
+        //     return response()->view('welcome');
+
+        // });
+
+        
+        
+        // # Laravel 15 | pág 38-39
+        // Route::get('test{bike}', function(App\Models\Bike $bike){
+
+        //     return response()->json($bike);
+
+        // });
+
+
+
+        # Laravel 14 pág 54-55
+
+        // Route::get('test', function(){
+
+        //     return response()->download(
+        //         public_path('images/bikes/moto_recien_estrenada.jpg'),
+        //     );
+        // });
+
+
+
+        # Laravel 14 pág 56-57
+
+        // Route::get('test', function(){
+
+        //     return response()->download(
+        //         storage_path('doc/IFCD45.pdf'),
+        //         'programa.pdf',
+        //         ['Content-type' => 'applicattion/pdf']
+        //     );
+
+        // });
+
+        
+        
+        # Laravel 14  pág: 60-61
+        // Route::get('test', function(){
+
+        //     return response()->file(
+        //         public_path('images/bikes/moto_recien_estrenada.jpg'),
+        //         ['Content-type' => 'image/jpg']
+        //     );
+
+        // });
+
+
+
+        

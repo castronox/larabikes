@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cookie;
+
 
 class BikeController extends Controller
 {
@@ -132,6 +134,11 @@ class BikeController extends Controller
         # Actualiza
         $bike->update($request->all()+['matriculada'=>0]);
 
+
+        # Encola las cookies
+        Cookie::queue('lastUpdateID', $bike->id,0);
+        Cookie::queue('lastUpdateID', now(),0);
+
         # Carga la misma vista y muestra el mensaje de éxito
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada satisfactoriamente");
     }
@@ -149,18 +156,22 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( Request $request, Bike $bike)
-    {
+    public function destroy(Bike $bike)
+    {   
 
+        # Parámetro : Request $request,
         # Comporobar la validez de la URL firmada
-        if(!$request->hasValidSignature())
-            abort (401, 'La firma URL no se pudo validar');
+        // if(!$request->hasValidSignature())
+        //     abort (401, 'La firma URL no se pudo validar');
 
         #La borra de la base de datos 
         $bike->delete();
 
         # Redirige a la lista de motos
-        return redirect ('bikes')
+        return redirect ('/bikes')
         ->with ('success', "Moto $bike->marca $bike->marca $bike->modelo eliminada.");
     }
+
+    
+
 }
