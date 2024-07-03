@@ -33,6 +33,18 @@
                 required>
         </div>
 
+        <div class="form-group row">
+            <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
+            <input name="imagen" type="file" class="form-control-file col-sm-10" id="inputImagen">
+            
+                <img class="rounded mt-3 ml-10" style="max-width: 400px" 
+                src="{{
+                $bike->imagen?
+                asset('storage/' . config('filesystems.bikesImageDir')) . '/' .$bike->imagen:
+                asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg'}}"
+                alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}">
+            
+        </div>
 
         <div class="form-group row">
             <div class="form-check">
@@ -45,7 +57,7 @@
 
         <div class="form-group row">
             <button type="submit" class="btn btn-success mt-5 m-2">Guardar</button>
-            <button type="reset" class="btn btn-secondary mt-5 m-2">Borrar</button>
+            
         </div>
     </form>
 

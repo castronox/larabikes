@@ -77,15 +77,34 @@ class BikeController extends Controller
             'modelo' => 'required|max:255',
             'precio' => 'required|numeric',
             'kms' => 'required|integer',
-            'matriculada' => 'sometimes'
+            'matriculada' => 'sometimes',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
         ]);
 
+        # Recuperar datos del formulario excepto la imagen
+        $datos = $request->only(['marca','modelo','precio','kms','matriculada']);
+
+        # El valor por defecto para la imagen será NULL
+        $datos +=['imagen' => NULL];
+
+        # Recuperación de la imagen
+        if($request->hasFile('imagen')){
+                # Sube la imagen al directorio indicado en el fichero de config
+                $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+
+                # Nos quedamos solo con el nombre del ficheropara añadirlo a la base de datos
+                $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
+        }
+
+        
         # Creación y guardado de la nueva moto con todos los datos POST
-        $bike = Bike::create($request->all());
+        $bike = Bike::create($datos);
 
         # Redirección a los detalles de la moto creada
-        return redirect()->route('bikes.show', $bike->id)
-            ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente");
+        return redirect()
+            ->route('bikes.show', $bike->id)
+            ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente.")
+            ->cookie('lastInsertID', $bike->id, 0 );  # Adjuntamos una cookie.
     }
 
     /**

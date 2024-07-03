@@ -5,6 +5,7 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -215,6 +216,20 @@ Route::fallback([WelcomeController::class, 'index']);
 
         // });
 
+
+        # Laravel 17 | Pág 11
+
+
+        // Route::get('/prueba', function(Request $request){
+        //     $respuesta = "PATH ".$request->path()."<br>";
+        //     $respuesta .= "URL: ".$request->url(). "<br>";
+        //     $respuesta .= "FULLURL".$request->fullUrl()."<br>";
+        //     $respuesta .= "IP CLIENTE: ".$request->getClientIp()."<br>";
+
+        //     // Podéis probar más métodos o propiedades de la request
+
+        //     return $respuesta;
+        // });
 
 
         

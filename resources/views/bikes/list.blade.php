@@ -30,9 +30,10 @@
 
 
     <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
+        <thead class="">
+            <tr class="">
                 <th>ID</th>
+                <th>Foto</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Operaciones</th>
@@ -41,7 +42,17 @@
         <tbody>
             @foreach ($bikes as $bike)
                 <tr>
-                    <td>{{ $bike->id }}</td>
+                    <td class="">{{ $bike->id }}</td>                  
+                        
+                        <td class="text-start d-flex justify-content-center" >
+                            <img class="rounded " style="max-width: 90px" 
+                            src="{{
+                            $bike->imagen?
+                            asset('storage/' . config('filesystems.bikesImageDir')) . '/' .$bike->imagen:
+                            asset('storage/' . config('filesystems.bikesImageDir')) . '/default.png'}}"
+                            alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}">
+                        </td>
+                    
                     <td>{{ $bike->marca }}</td>
                     <td>{{ $bike->modelo }}</td>
                     <td class="text-center">
