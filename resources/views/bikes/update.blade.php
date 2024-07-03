@@ -6,7 +6,7 @@
 @section('contenido')
 
 
-    <form class="my-2 border p-5" method="POST" action="{{ route('bikes.update', $bike->id) }}">
+    <form class="my-2 border p-5" method="POST" enctype="multipart/form-data" action="{{ route('bikes.update', $bike->id) }}">
         {{ csrf_field() }}
         <input name="_method" type="hidden" value="PUT">
 
@@ -33,17 +33,35 @@
                 required>
         </div>
 
-        <div class="form-group row">
-            <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
-            <input name="imagen" type="file" class="form-control-file col-sm-10" id="inputImagen">
-            
-                <img class="rounded mt-3 ml-10" style="max-width: 400px" 
+        <div class="form-group row my-3" >
+            <div class="col-sm-9" >
+                <label for="inputImagen" class="col-sm-2 col-form-label">
+                    {{$bike->imagen? 'Sustituir' : 'Añadir'}} imagen
+                </label>
+                <input name="imagen" type="file" class="form-control-file" id="inputImagen">
+
+                @if($bike->imagen)
+                <div class="form-check my-3">
+                    <input name="eliminarimagen" type="checkbox" class="form-check-input" id="inputEliminar">
+                    <label for="inputEliminar" class="form-check-label">Eliminar imagen</label>
+                </div>
+                <script>
+                    inputEliminar.onchange = function(){
+                        inputImagen.disabled = this.checked;
+                    }
+                </script>
+                @endif
+            </div>
+            <div class="col-sm-3">
+                <label>Imagen actual:</label>
+                <img class="rounded img-thumbnail my-3" alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}" 
                 src="{{
                 $bike->imagen?
-                asset('storage/' . config('filesystems.bikesImageDir')) . '/' .$bike->imagen:
-                asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg'}}"
-                alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}">
-            
+                asset('storage/'.config('filesystems.bikesImageDir')) . '/' . $bike->imagen:
+                asset('storage/'.config('filesystems.bikesImageDir')) . '/default.png'
+                }}">
+
+            </div>
         </div>
 
         <div class="form-group row">

@@ -5,6 +5,7 @@ use App\Models\Bike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 
 class BikeController extends Controller
@@ -145,18 +146,43 @@ class BikeController extends Controller
             'modelo' => 'required|max:255',
             'precio' => 'required|numeric',
             'kms' => 'required|integer',
-            'matriculada' => 'sometimes'
+            'matriculada' => 'sometimes',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
 
         ]);
 
 
-        # Actualiza
-        $bike->update($request->all()+['matriculada'=>0]);
+        # Toma los datos del formulario
+        $datos = $request->only('marca', 'modelo' , 'kms', 'precio');
+        $datos += $request->has('matriculada') ? ['matriculada'=>1] : ['matriculada'=>0];
 
+        if($request->hasFile('imagen')){
+            # Marcamos la imagen antigua para ser borrada si el update va bien
+            if($bike->imagen)
+                $aBorrar = config('filesystems.bikesImageDir') . '/' .$bike->imagen;
 
-        # Encola las cookies
-        Cookie::queue('lastUpdateID', $bike->id,0);
-        Cookie::queue('lastUpdateID', now(),0);
+            # Sube la imagen al directorio indicado en el fichero de config
+            $imagenNueva = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+
+            # Nos quedamos solo con el nombre de fichero para añadirlo a la BBDD
+            $datos['imagen'] = pathinfo($imagenNueva, PATHINFO_BASENAME);
+
+        }
+
+        # En caso de que nos pidan eliminar la imagen
+        if($request->filled('eliminarimagen') && $bike->imagen){
+            $datos['imagen'] = NULL;
+            $aBorrar = config('filesystems.bikesImageDir') . '/' . $bike->imagen;
+        }
+
+        # Al actualizar debemos tener en cuenta varias cosas:
+        if($bike->update($datos)){
+            if(isset($aBorrar))
+                Storage::delete($aBorrar);  # Borramos foto antigua
+        }else{ # Si algo falla
+            if(isset($imagenNueva))
+                Storage::delete($imagenNueva); # Borramos la foto nueva    
+        }
 
         # Carga la misma vista y muestra el mensaje de éxito
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada satisfactoriamente");
@@ -184,7 +210,9 @@ class BikeController extends Controller
         //     abort (401, 'La firma URL no se pudo validar');
 
         #La borra de la base de datos 
-        $bike->delete();
+        if( $bike->delete() && $bike->imagen)
+            #Elimina el fichero
+        Storage::delete(config('filesystems.bikesImageDir'). '/' . $bike->imagen);
 
         # Redirige a la lista de motos
         return redirect ('/bikes')
