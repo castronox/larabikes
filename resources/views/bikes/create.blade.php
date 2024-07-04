@@ -1,11 +1,11 @@
-
-@php($pagina='nuevamoto')
+@php($pagina = 'nuevamoto')
 @extends('layouts.master')
 
 @section('titulo', 'Nueva Moto')
 
 @section('contenido')
-    <form class="my-2 border p-5 bg-light shadow-sm" method="POST" action="{{ route('bikes.store') }}" enctype="multipart/form-data">
+    <form class="my-2 border p-5 bg-light shadow-sm" method="POST" action="{{ route('bikes.store') }}"
+        enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group row">
             <label for="inputMarca" class="col-sm-2 col-form-label">Marca</label>
@@ -42,16 +42,14 @@
         <div class="form-group row">
             <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
             <input name="imagen" type="file" class="form-control-file col-sm-10" id="inputImagen">
-            
-                <img class="rounded mt-3 ml-10" style="max-width: 400px" 
-                src="{{
-                $bike->imagen?
-                asset('storage/' . config('filesystems.bikesImageDir')) . '/' .$bike->imagen:
-                asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg'}}"
-                alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}">
-            
+            <img class="rounded mt-3 ml-10" style="max-width: 400px"
+                src="{{ isset($bike) && $bike->imagen
+                    ? asset('storage/' . config('filesystems.bikesImageDir') . '/' . $bike->imagen)
+                    : asset('storage/' . config('filesystems.bikesImageDir') . '/default.png') }}"
+                alt="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}"
+                title="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}">
         </div>
-        
+
 
         <div class="form-group row">
             <div class="col-sm-2"> </div>

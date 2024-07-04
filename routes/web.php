@@ -4,6 +4,7 @@ use App\Http\Controllers\WelcomeController;
 #use App\Http\Middleware\EdgeRules;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ContactoController;
 
 
 /*
@@ -19,7 +20,6 @@ use Illuminate\Http\Request;
 
 
 #CRUD DE MOTOS
-
 Route::resource('bikes', BikeController::class);
 
 
@@ -27,7 +27,16 @@ Route::resource('bikes', BikeController::class);
 Route::get('/bikes/search/{marca?}/{modelo?}',[BikeController::class, 'search'])
     ->name('bikes.search');
 
+# Ruta de inicio 
 Route::get('/',[WelcomeController::class, 'index'])->name('portada');
+
+# Ruta de formulario de contacto
+Route::get('/contacto', [ContactoController::class, 'index'])
+    ->name('contacto');
+
+# Ruta para el envío del email de contacto
+Route::post('/contacto', [ContactoController::class, 'send'])
+    ->name('contacto.email');
 
 # Formulario de confirmación de eliminación
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])

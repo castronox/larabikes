@@ -42,7 +42,7 @@
             src="{{
             $bike->imagen?
             asset('storage/' . config('filesystems.bikesImageDir')) . '/' .$bike->imagen:
-            asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg'}}"
+            asset('storage/' . config('filesystems.bikesImageDir')) . '/default.png'}}"
             alt="Imagen de {{$bike->marca}} {{$bike->modelo}}" title="Imagen de {{$bike->marca}} {{$bike->modelo}}">
         </td>
     </tr>
