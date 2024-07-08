@@ -36,6 +36,8 @@
                 <th>Foto</th>
                 <th>Marca</th>
                 <th>Modelo</th>
+                <th>Matricula</th>
+                <th>Color</th>
                 <th>Operaciones</th>
             </tr>
         </thead>
@@ -55,6 +57,8 @@
                     
                     <td>{{ $bike->marca }}</td>
                     <td>{{ $bike->modelo }}</td>
+                    <td>{{ $bike->matricula}}</td>
+                    <td style="background-color:{{$bike->color}}">{{$bike->color}}</td>
                     <td class="text-center">
                         <a href="{{ route('bikes.show', $bike->id) }}" class="btn btn-info btn-sm">
                             <img height="20" width="20" src="{{ asset('images/buttons/show.png') }}"

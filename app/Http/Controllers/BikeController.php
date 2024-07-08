@@ -79,12 +79,14 @@ class BikeController extends Controller
             'modelo' => 'required|max:255',
             'precio' => 'required|numeric',
             'kms' => 'required|integer',
-            'matriculada' => 'sometimes',
+            'matriculada' => 'required_with:matricula',
+            'matricula' => 'required_if:matriculada,1|nullable|regex:/^\d{4}[B-Z]{3}$/i',
+            'color'=> 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
         ]);
 
         # Recuperar datos del formulario excepto la imagen
-        $datos = $request->only(['marca','modelo','precio','kms','matriculada']);
+        $datos = $request->only(['marca','modelo','precio','kms','matriculada', 'matricula', 'color']);
 
         # El valor por defecto para la imagen será NULL
         $datos +=['imagen' => NULL];
