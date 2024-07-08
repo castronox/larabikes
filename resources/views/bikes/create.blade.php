@@ -41,26 +41,56 @@
 
         <div class="form-group row">
             <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
-            <input name="imagen" type="file" class="form-control-file col-sm-10" id="inputImagen">
-            <img class="rounded mt-3 ml-10" style="max-width: 400px"
-                src="{{ isset($bike) && $bike->imagen
-                    ? asset('storage/' . config('filesystems.bikesImageDir') . '/' . $bike->imagen)
-                    : asset('storage/' . config('filesystems.bikesImageDir') . '/default.png') }}"
-                alt="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}"
-                title="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}">
-        </div>
-
-
-        <div class="form-group row">
-            <div class="col-sm-2"> </div>
             <div class="col-sm-10">
-                <div class="form-check">
-                    <input name="matriculada" value="1" class="form-check-input" type="checkbox" id="inputMatriculada"
-                        {{ empty(old('matriculada')) ? '' : 'checked' }}>
-                    <label class="form-check-label" for="inputMatriculada">Matriculada</label>
-                </div>
+                <input name="imagen" type="file" class="form-control-file" id="inputImagen">
+                <img class="rounded mt-3" style="max-width: 400px"
+                    src="{{ isset($bike) && $bike->imagen
+                        ? asset('storage/' . config('filesystems.bikesImageDir') . '/' . $bike->imagen)
+                        : asset('storage/' . config('filesystems.bikesImageDir') . '/default.png') }}"
+                    alt="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}"
+                    title="Imagen de {{ $bike->marca ?? 'marca desconocida' }} {{ $bike->modelo ?? 'modelo desconocido' }}">
             </div>
         </div>
+
+        {{-- Actualización para el color --}}
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="chkColor">
+                    <label class="form-check-label" for="chkColor">Indicar el color</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="inputColor" class="form-label">Color</label>
+                <input name="color" type="color" class="form-control form-control-color" id="inputColor" value="{{old('color') ?? '#FFFFFF'}}">
+            </div>
+        </div>
+        <script>
+            document.getElementById('inputColor').disabled = !document.getElementById('chkColor').checked;
+            document.getElementById('chkColor').onchange = function(){
+                document.getElementById('inputColor').disabled = !this.checked;
+            }
+        </script>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <div class="form-check">
+                    <input name="matriculada" value="1" class="form-check-input" type="checkbox" id="chkMatriculada"
+                        {{ empty(old('matriculada')) ? '' : 'checked' }}>
+                    <label class="form-check-label" for="chkMatriculada">Matriculada</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="inputMatricula" class="form-label">Matrícula</label>
+                <input name="matricula" type="text" class="form-control" id="inputMatricula" maxlength="7" value="{{old('matricula')}}">
+            </div>
+        </div>
+        <script>
+            document.getElementById('inputMatricula').disabled = !document.getElementById('chkMatriculada').checked;
+            document.getElementById('chkMatriculada').onchange = function(){
+                document.getElementById('inputMatricula').disabled = !this.checked;
+            }
+        </script>
 
         <div class="form-group row">
             <div class="col-sm-10 offset-sm-2">
@@ -75,10 +105,3 @@
     @parent
     <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
 @endsection
-<br><br>
-</main>
-
-
-</body>
-
-</html>
