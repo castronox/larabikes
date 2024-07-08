@@ -2,7 +2,7 @@
 @section('titulo', 'Contactar con LaraBikes')
 @section('contenido')
     <div class="container row">
-        <form class="col-7 my-2 border p-4" method="POST" action="{{ route('contacto.email') }}">
+        <form class="col-7 my-2 border p-4" method="POST" action="{{ route('contacto.email') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group row">
                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
@@ -21,7 +21,12 @@
             </div>
             <div class="form-group row">
                 <label for="" class="col-sm-2 col-form-label"></label>
-                <textarea name="mensaje" class="up form-control" id="inputMensjae" maxlength="2550" required="required">{{ old('mensaje') }}</textarea>
+                <textarea name="mensaje" class="up form-control" id="inputMensaje" maxlength="2550" required="required">{{ old('mensaje') }}</textarea>
+            </div>
+            <div class="form-group row my-4">
+                <label for="inputFichero" class="form-label">Fichero (pdf):</label>
+                <input name="fichero" type="file" class="form-control-file" accept="application/pdf" id="inputFichero">
+
             </div>
             <div class="form-group-row">
                 <button type="submit" class="btn btn-success m-2 mt-5">Enviar</button>

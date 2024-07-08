@@ -4,49 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        * {
-            font-family: Arial, Verdana, Helvetica;
-        }
+        /* Truco para usar Bootstrap en nuestro Email */
+        @php
+            include 'css/bootstrap.min.css';        
+        @endphp
 
-        header,
-        main,
-        footer {
-            border: solid 1px #ddd;
-            padding: 15px;
-            margin: 10px;
-        }
-
-        header,
-        footer {
-            background-color: #eee;
-        }
-
-        header {
-            display: flex;
-        }
-
-        header figure {
-            flex: 1
-        }
-
-        header h1 {
-            flex: 4
-        }
-
-        .cursiva {
-            font-style: italic
-        }
     </style>
 </head>
 
-<body>
+<body class="container p-3">
 
-    <header>
-        <figure>
+    <header class="container row bg-light p-4 my-4">
+        <figure class="img-fluid col-2">
             <img src="{{ asset('images/logos/logo.png') }}" alt="logo">
         </figure>
 
-        <h1>{{ config('app.name') }}</h1>
+        <h1 class="col-10">{{ config('app.name') }}</h1>
     </header>
 
     <main>
@@ -58,7 +31,7 @@
 
     </main>
 
-    <footer>
+    <footer class="page-footer font-small p-4 my-4 bg-light">
         <p>Aplicación creada por {{ $autor }} para {{$centro}} como ejemplo de clase. Desarrollada con <b>Laravel</b> y <b>Bootstrap</b>.</p>
     </footer>
 

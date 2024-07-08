@@ -85,16 +85,25 @@ class contactoController extends Controller
 
     public function send(Request $request){
 
+        $request->validate([
+            'email' => 'required|email:rfc',
+            'fichero' => 'sometimes|file|mimes:pdf'
+        ]);
+
         $mensaje = new \stdClass(); # Objeto con los datos
         $mensaje->asunto = $request->asunto;
         $mensaje->email = $request->email;
         $mensaje->nombre = $request->nombre;
         $mensaje->mensaje = $request->mensaje;
 
+        # Si en 'envío de fichero' recupera la ruta ( en el directorio temporal)
+        $mensaje->fichero = $request->hasFile('fichero')?
+                            $request->file('fichero')->getRealPath() : NULL;
+
         Mail::to('contacto@larabikes.com')->send(new Contact($mensaje));
 
         return redirect()
             ->route('portada')
-            ->with('success', 'Mesnaje enviado correctamente.');
+            ->with('success', 'Mensaje enviado correctamente.');
     }
 }

@@ -31,9 +31,18 @@ class Contact extends Mailable
      */
     public function build()
     {
-        return $this->from($this->mensaje->email)
+        $email =  $this->from($this->mensaje->email)
                     ->subject('Mensaje recibido:'. $this->mensaje->asunto)
                     ->with('centro', 'CIFO Sabadell')
                     ->view('emails.contact');
+
+        # Si hay un fichero, lo adjuntamos
+        if($this->mensaje->fichero)
+            $email->attach($this->mensaje->fichero,[
+                'as' => 'adjunto_'.uniqid().'.pdf',   # Nombre único
+                'mime' => 'application/pdf',
+            ]);
+
+        return $email;
     }
 }
