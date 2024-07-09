@@ -60,7 +60,7 @@
                     <label class="form-check-label" for="chkColor">Indicar el color</label>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-1">
                 <label for="inputColor" class="form-label">Color</label>
                 <input name="color" type="color" class="form-control form-control-color" id="inputColor" value="{{old('color') ?? '#FFFFFF'}}">
             </div>
@@ -72,8 +72,8 @@
             }
         </script>
 
-        <div class="form-group row">
-            <div class="col-sm-6">
+        <div class="form-group row my-3">
+            <div class="form-check col-sm-6">
                 <div class="form-check">
                     <input name="matriculada" value="1" class="form-check-input" type="checkbox" id="chkMatriculada"
                         {{ empty(old('matriculada')) ? '' : 'checked' }}>
@@ -83,12 +83,18 @@
             <div class="col-sm-6">
                 <label for="inputMatricula" class="form-label">Matrícula</label>
                 <input name="matricula" type="text" class="form-control" id="inputMatricula" maxlength="7" value="{{old('matricula')}}">
+
+                <label for="confirmMatricula" class="col-sm-2 form-label">Repetir:</label>
+                <input name="matricula_confirmation" type="text" class="up form-control" id="confirmMatricula" maxlength="7" value="{{old('matricula_confirmation')}}">
             </div>
         </div>
         <script>
-            document.getElementById('inputMatricula').disabled = !document.getElementById('chkMatriculada').checked;
-            document.getElementById('chkMatriculada').onchange = function(){
-                document.getElementById('inputMatricula').disabled = !this.checked;
+            inputMatricula.disabled = !chkMatricula.checked;
+            confirmMatricula.disabled = !chkMatriculada.checked;
+
+            chkMatriculada.onchange = function(){
+                inputMatricula.disabled = !chkMatriculada.checked;
+                confirmMatricula.disabled = !chkMatriculada.checked
             }
         </script>
 

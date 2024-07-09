@@ -34,7 +34,18 @@
         <td>Matriculada</td>
         <td>{{$bike->matriculada? 'SI' : 'NO'}}</td>
     </tr>
-
+    @if($bike->matriculada)
+    <tr>
+        <td>Matrícula</td>
+        <td>{{$bike->matricula}}</td>
+    </tr>
+    @endif
+    @if ($bike->color)
+    <tr>
+        <td>Color</td>
+        <td style="background-color: {{$bike->color}}">{{$bike->color}}</td>
+    </tr>
+    @endif
     <tr>
         <td>Imagen</td>
         <td class="text-start" >

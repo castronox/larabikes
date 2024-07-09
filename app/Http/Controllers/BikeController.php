@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Requests\BikeRequest;
 
 class BikeController extends Controller
 {
@@ -72,18 +72,8 @@ class BikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BikeRequest $request)
     {
-        $request->validate([
-            'marca' => 'required|max:255',
-            'modelo' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'kms' => 'required|integer',
-            'matriculada' => 'required_with:matricula',
-            'matricula' => 'required_if:matriculada,1|nullable|regex:/^\d{4}[B-Z]{3}$/i',
-            'color'=> 'nullable|regex:/^#[\dA-F]{6}$/i',
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
-        ]);
 
         # Recuperar datos del formulario excepto la imagen
         $datos = $request->only(['marca','modelo','precio','kms','matriculada', 'matricula', 'color']);
@@ -149,7 +139,9 @@ class BikeController extends Controller
             'modelo' => 'required|max:255',
             'precio' => 'required|numeric',
             'kms' => 'required|integer',
-            'matriculada' => 'sometimes',
+            'matriculada' => 'required_with:matricula',
+            'matricula' => 'required_if:matriculada,1|nullable|regex:/^\d{4}[B-Z]{3}$/i|unique:bikes|confirmed',
+            'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
 
         ]);
@@ -157,7 +149,11 @@ class BikeController extends Controller
 
         # Toma los datos del formulario
         $datos = $request->only('marca', 'modelo' , 'kms', 'precio');
-        $datos += $request->has('matriculada') ? ['matriculada'=>1] : ['matriculada'=>0];
+        
+        # Estos datos no se pueden tomar directamente.
+        $datos['matriculada'] = $request->has('matriculada') ? 1:0;
+        $datos['matricula'] = $request->has('matriculada')? $request->input('matricula') : NULL;
+        $datos['color'] = $request->input('color') ?? NULL;
 
         if($request->hasFile('imagen')){
             # Marcamos la imagen antigua para ser borrada si el update va bien
