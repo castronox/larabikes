@@ -37,6 +37,18 @@ class Mayusculas implements Rule
     public function message()
     {
         # Mensaje en caso de que no pase
-        return 'El campo :ttributte debe estar en mayusculas.';
+        return[
+
+            'precio.numeric'=>'El precio debe ser un numero',
+            'precio.min'=>'El precio debe ser mayor o igual a cero',
+            'kms.numeric'=>'Los kilometros der 0 o más',
+            'matricula.required_if'=>'La matrícula es obligatoria si la moto está matriculada',
+            'matricula.unique'=>'Ya existe una moto con la misma matrícula.',
+            'matricula.regex'=>'La matrícula debe contener 4 dígitos y 3 letras',
+            'matricula.conmfirmed'=>'La confirmación de matrícula no coincide',
+            'color.regex'=>'El color debe estar en formato RGB HEX comenzando por #',
+            'imagen.image'=>'El fichero debe ser una imagen',
+            'imagen.mimes'=>'La imagen debe ser de tipo jpg, png, gif o webp',            
+        ];
     }
 }
