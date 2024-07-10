@@ -12,8 +12,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ config('app.name') }} - @yield('titulo')</title>
 
-    <!-- Carga del CSS de Bootstrap -->
+    <!-- Carga del CSS de Bootstrap 4 -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    
+           <!-- Scripts -->
+           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+           <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Estilos adicionales -->
     <style>
@@ -22,7 +26,7 @@
         }
 
         .jumbotron {
-            background-color: #063e4552;
+            background-color: rgba(6, 62, 69, 0.32);
             color: #fff;
             padding: 2rem;
             border-radius: 0;
@@ -49,13 +53,14 @@
 </head>
 
 <body class="container p-3">
+    
 
     <!-- PARTE SUPERIOR -->
     @section('navegacion')
     @php($pagina = Route::currentRouteName())
-        <nav class="navbar navbar-expand-lg navbar-dark mb-3">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
             <div class="container">
-                <a class="navbar-brand" href="#">LaraBikes</a>
+                <a class="navbar-brand" href="{{ url('/') }}">LaraBikes</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -79,6 +84,53 @@
                             <a class="nav-link {{$pagina=='contacto'? 'active': ''}}"
                             href="{{route('contacto')}}">Contacto</a>
                         </li>
+                        <!-- Authentication Links -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <!-- Left Side Of Navbar -->
+                            <ul class="navbar-nav me-auto">
+        
+                            </ul>
+        
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav ms-auto">
+                                <!-- Authentication Links -->
+                                @guest
+                                    @if (Route::has('login'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        </li>
+                                    @endif
+        
+                                    @if (Route::has('register'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        </li>
+                                    @endif
+                                @else
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->name }}
+                                        </a>
+        
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('home') }}"
+                                            >
+                                             {{ __('Mi perfil') }}
+                                         </a>
+        
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </li>
+                                @endguest
+                            </ul>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -91,12 +143,14 @@
         <h2>@yield('titulo')</h2>
 
         @if (Session::has('success'))
-        <x-alert type="success" message="{{ Session::get('success')}}"/>
+        <div class="alert alert-success">
+            {{ Session::get('success')}}
+        </div>
         @endif
 
         @if($errors->any())
-        
-        <x-alert type="danger" message="Se han producido errores:" >
+        <div class="alert alert-danger">
+            <p>Se han producido errores:</p>
             <ul>
                 @foreach ($errors->all() as $error )
                     <li>
@@ -104,8 +158,7 @@
                     </li>
                 @endforeach
             </ul>
-        </x-alert>
-        
+        </div>
         @endif
         @yield('contenido')
 
@@ -115,11 +168,6 @@
                 <a href="{{ route('portada') }}" class="btn btn-primary m-2">Inicio</a>
             @show
         </div>
-
-
-
-
-
     </main>
 
     <!-- PARTE INFERIOR -->
@@ -131,6 +179,7 @@
             </div>
         </footer>
     @show
+
     <!-- Scripts de Bootstrap (jQuery primero, luego Popper.js, luego Bootstrap JS) -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>

@@ -11,6 +11,18 @@ use App\Http\Requests\BikeRequest;
 
 class BikeController extends Controller
 {
+
+    public function __construct(){
+        # Ponemos el middleware auth a todos los metodos excepto:
+        # Lista de motos
+        # Detalles de la moto
+        # Busqueda de motos
+        $this->middleware('auth')->except('index', 'show', 'search');
+    }
+
+
+
+
     /**
      * Display a listing of the resource.
      *

@@ -1,11 +1,12 @@
 <?php
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
 #use App\Http\Middleware\EdgeRules;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ContactoController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,9 @@ Route::get('/',[WelcomeController::class, 'index'])->name('portada');
 # Ruta de formulario de contacto
 Route::get('/contacto', [ContactoController::class, 'index'])
     ->name('contacto');
+    
+#Ruta para el login
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
 # Ruta para el envío del email de contacto
 Route::post('/contacto', [ContactoController::class, 'send'])
