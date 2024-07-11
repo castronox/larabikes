@@ -12,9 +12,12 @@
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    @endif    
+                    @auth
+                        <p><b>Nombre: </b> {{Auth::user()->name}}</p>
+                        <p><b>Correo: </b> {{Auth::user()->email}}</p>
+                        <p><b>Fecha de alta: </b> {{Auth::user()->created_at}}</p>
+                    @endauth
                 </div>
             </div>
         </div>

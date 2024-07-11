@@ -1,3 +1,6 @@
+@auth
+    
+
 @extends('layouts.master')
 
 @section('titulo', "Confirmación de borrado de $bike->nombre $bike->modelo")
@@ -38,3 +41,4 @@
     <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
     <a href="{{ route('bikes.show', $bike->id) }}" class="btn btn-primary m-2">Garaje</a>
 @endsection
+@endauth

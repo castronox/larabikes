@@ -1,3 +1,6 @@
+@auth
+    
+
 @php($pagina = 'nuevamoto')
 @extends('layouts.master')
 
@@ -111,3 +114,4 @@
     @parent
     <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
 @endsection
+@endauth

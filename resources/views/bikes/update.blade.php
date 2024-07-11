@@ -1,3 +1,4 @@
+@auth
 @extends('layouts.master')
 
 @section('titulo', "Mostrar $bike->marca $bike->modelo")
@@ -120,3 +121,5 @@
 @parent
 <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
 @endsection
+
+@endauth

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-@env(['local' , 'test'])
+@env(['local', 'test'])
 <div class="alert alert-warning">
     <b>Atención !!! </b>estás probando la App en modo local o test.
     <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
 </div>
 @endenv
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +15,10 @@
 
     <!-- Carga del CSS de Bootstrap 4 -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    
-           <!-- Scripts -->
-           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-           <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Estilos adicionales -->
     <style>
@@ -53,11 +54,11 @@
 </head>
 
 <body class="container p-3">
-    
+
 
     <!-- PARTE SUPERIOR -->
     @section('navegacion')
-    @php($pagina = Route::currentRouteName())
+        @php($pagina = Route::currentRouteName())
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">LaraBikes</a>
@@ -68,29 +69,30 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link {{$pagina=='portada' ? 'active' : ''}} " 
-                            href="{{ route('portada') }}">Inicio</a>
+                            <a class="nav-link {{ $pagina == 'portada' ? 'active' : '' }} "
+                                href="{{ route('portada') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{$pagina=='bikes.index' ||
-                                                $pagina=='bikes.search' ? 'active' : '' }} " 
-                            href="{{ route('bikes.index') }}">Garaje</a>
+                            <a class="nav-link {{ $pagina == 'bikes.index' || $pagina == 'bikes.search' ? 'active' : '' }} "
+                                href="{{ route('bikes.index') }}">Garaje</a>
                         </li>
+                        @auth                     
                         <li class="nav-item">
-                            <a class="nav-link {{$pagina=='bikes.create' ? 'active' : ''}}  " 
-                            href="{{ route('bikes.create') }}">Nueva Moto</a>
+                            <a class="nav-link {{ $pagina == 'bikes.create' ? 'active' : '' }}  "
+                                href="{{ route('bikes.create') }}">Nueva Moto</a>
                         </li>
-                        <li class="nav-item mr-2" >
-                            <a class="nav-link {{$pagina=='contacto'? 'active': ''}}"
-                            href="{{route('contacto')}}">Contacto</a>
+                        @endauth
+                        <li class="nav-item mr-2">
+                            <a class="nav-link {{ $pagina == 'contacto' ? 'active' : '' }}"
+                                href="{{ route('contacto') }}">Contacto</a>
                         </li>
                         <!-- Authentication Links -->
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Left Side Of Navbar -->
                             <ul class="navbar-nav me-auto">
-        
+
                             </ul>
-        
+
                             <!-- Right Side Of Navbar -->
                             <ul class="navbar-nav ms-auto">
                                 <!-- Authentication Links -->
@@ -100,7 +102,7 @@
                                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                         </li>
                                     @endif
-        
+
                                     @if (Route::has('register'))
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -108,22 +110,25 @@
                                     @endif
                                 @else
                                     <li class="nav-item dropdown">
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                            {{ Auth::user()->name }}
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->name }} | ({{ Auth::user()->email}})
                                         </a>
-        
+
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('home') }}">
+                                                {{ __('Mi perfil') }}
+                                            </a>
+                                            
                                             <a class="dropdown-item" href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
                                                 {{ __('Logout') }}
                                             </a>
-                                            <a class="dropdown-item" href="{{ route('home') }}"
-                                            >
-                                             {{ __('Mi perfil') }}
-                                         </a>
-        
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                             </form>
                                         </div>
@@ -137,28 +142,28 @@
         </nav>
     @show
     <!-- PARTE CENTRAL -->
-    <h1 class="my-2">{{config('app.name')}}</h1>
+    <h1 class="my-2">{{ config('app.name') }}</h1>
 
     <main>
         <h2>@yield('titulo')</h2>
 
         @if (Session::has('success'))
-        <div class="alert alert-success">
-            {{ Session::get('success')}}
-        </div>
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
         @endif
 
-        @if($errors->any())
-        <div class="alert alert-danger">
-            <p>Se han producido errores:</p>
-            <ul>
-                @foreach ($errors->all() as $error )
-                    <li>
-                        {{$error}}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <p>Se han producido errores:</p>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
         @yield('contenido')
 
@@ -174,7 +179,8 @@
     @section('pie')
         <footer class="footer mt-auto py-3">
             <div class="container text-center">
-                <p class="text-muted">Aplicación creada por {{$autor}} como ejemplo de clase desarrollada y haciendo
+                <p class="text-muted">Aplicación creada por {{ $autor }} como ejemplo de clase desarrollada y
+                    haciendo
                     uso de Bootstrap y Laravel.</p>
             </div>
         </footer>

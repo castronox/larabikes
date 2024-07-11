@@ -64,6 +64,7 @@
                             <img height="20" width="20" src="{{ asset('images/buttons/show.png') }}"
                                 alt="Ver detalles" title="Ver detalles">
                         </a>
+                        @auth
                         <a href="{{ route('bikes.edit', $bike->id) }}" class="btn btn-warning btn-sm">
                             <img height="20" width="20" src="{{ asset('images/buttons/update.png') }}"
                                 alt="Modificar" title="Modificar">
@@ -72,6 +73,7 @@
                             <img height="20" width="20" src="{{ asset('images/buttons/delete.png') }}"
                                 alt="Eliminar" title="Eliminar">
                         </a>
+                        @endauth
                     </td>
                 </tr>
             
