@@ -46,12 +46,17 @@ Route::post('/contacto', [ContactoController::class, 'send'])
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
     ->name('bikes.delete');             // Eliminar moto.php 
 
-
-    // #Ruta de FALLBACK
+# Ruta de FALLBACK
 Route::fallback([WelcomeController::class, 'index']);
 
+# Ruta de la página del perfil de usuario
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    #ZONA DE PRUEBAS
+Auth::routes();
+
+
+
+        # ZONA DE PRUEBAS
 
         // #Ruta con parametros variables
         // Route::get('test/{nombre}/{edad}', function ($nombre, $edad){
@@ -245,8 +250,4 @@ Route::fallback([WelcomeController::class, 'index']);
         // });
 
 
-        
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ 

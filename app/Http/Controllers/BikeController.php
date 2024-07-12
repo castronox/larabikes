@@ -18,6 +18,8 @@ class BikeController extends Controller
         # Detalles de la moto
         # Busqueda de motos
         $this->middleware('auth')->except('index', 'show', 'search');
+
+        $this->middleware('throttle:3,1')->only('create');
     }
 
 
