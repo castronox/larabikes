@@ -55,6 +55,16 @@
 
 <body class="container p-3">
 
+    @if (Auth::user() && !Auth::user()->hasVerifiedEmail())
+    <div class="alert alert-warning">
+        <strong>¡Advertencia!</strong> Su email no está verificado. Por favor, verifique su email.
+        <form method="POST" action="{{ route('verification.send') }}">
+            @csrf
+            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Reenviar email de verificación</button>.
+        </form>
+    </div>
+@endif
+
 
     <!-- PARTE SUPERIOR -->
     @section('navegacion')

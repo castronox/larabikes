@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ContactoController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Auth\VerificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Auth;
 #CRUD DE MOTOS
 Route::resource('bikes', BikeController::class);
 
+# Ruta de verificación 
+Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
 
 # Para buscar motos por marca y / o modelo
 Route::get('/bikes/search/{marca?}/{modelo?}',[BikeController::class, 'search'])
@@ -52,7 +56,8 @@ Route::fallback([WelcomeController::class, 'index']);
 # Ruta de la página del perfil de usuario
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
+
 
 
 
