@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\BikeRequest;
+use Illuminate\Support\Facades\Gate;
 
 class BikeController extends Controller
 {
@@ -212,6 +213,11 @@ class BikeController extends Controller
 
     public function delete( Bike $bike){
 
+        # Autorización mediante una GATE
+        # Luego la comentaremos para hacer policy
+        if(Gate::denies('borrarMoto', $bike))
+            abort(401, 'No puede borrar una moto que no es tuya.');
+
         return view('bikes.delete', ['bike' => $bike]);
     }
 
@@ -228,6 +234,9 @@ class BikeController extends Controller
         # Comporobar la validez de la URL firmada
         // if(!$request->hasValidSignature())
         //     abort (401, 'La firma URL no se pudo validar');
+
+        if (Gate::denies('borrarMoto' , $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya.');
 
         #La borra de la base de datos 
         if( $bike->delete() && $bike->imagen)

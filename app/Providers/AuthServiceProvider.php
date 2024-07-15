@@ -26,5 +26,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
+
+
+        # Gate para autorizar el borrado de una moto, tras la prueba la borraremos
+        # puesto que la implementación final la haremos con policies
+        Gate::define('borrarMoto', function($user, $bike){
+            return $user->id == $bike->user_id;
+        });
     }
 }
