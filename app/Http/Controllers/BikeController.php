@@ -141,8 +141,14 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($bike)
+    public function edit(Request $request, Bike $bike)
     {
+
+        # Autorización mediante policy 
+        if ($request->user()->cant('update', $bike))
+        abort(401, 'No puedes actualizar una moto que no es tuya');
+
+
         # Carga la vista con el formulario para modificar la moto
         return view('bikes.update', ['bike'=>$bike]);
     }
@@ -168,6 +174,9 @@ class BikeController extends Controller
 
         ]);
 
+        # Autorización mediante policy 
+            if ($request->user()->cant('update', $bike))
+                abort(401, 'No puedes actualizar una moto que no es tuya');
 
         # Toma los datos del formulario
         $datos = $request->only('marca', 'modelo' , 'kms', 'precio');
@@ -211,12 +220,16 @@ class BikeController extends Controller
 
 
 
-    public function delete( Bike $bike){
+    public function delete(Request $request, Bike $bike){
 
         # Autorización mediante una GATE
         # Luego la comentaremos para hacer policy
-        if(Gate::denies('borrarMoto', $bike))
-            abort(401, 'No puede borrar una moto que no es tuya.');
+        // if(Gate::denies('borrarMoto', $bike))
+        //     abort(401, 'No puede borrar una moto que no es tuya.');
+
+                # Autorización mediante policy 
+                if ($request->user()->cant('delete', $bike))
+                abort(401, 'No puedes borrar una moto que no es tuya');
 
         return view('bikes.delete', ['bike' => $bike]);
     }
@@ -227,7 +240,7 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bike $bike)
+    public function destroy(Request $request,Bike $bike)
     {   
 
         # Parámetro : Request $request,
@@ -235,8 +248,12 @@ class BikeController extends Controller
         // if(!$request->hasValidSignature())
         //     abort (401, 'La firma URL no se pudo validar');
 
-        if (Gate::denies('borrarMoto' , $bike))
-            abort(401, 'No puedes borrar una moto que no es tuya.');
+        // if (Gate::denies('borrarMoto' , $bike))
+        //     abort(401, 'No puedes borrar una moto que no es tuya.');
+
+        # Autorización mediante policy 
+        if ($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');
 
         #La borra de la base de datos 
         if( $bike->delete() && $bike->imagen)
