@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\BikeRequest;
+use App\Http\Requests\BikeUpdateRequest;
+use App\Http\Requests\BikeDeleteRequest;
 use Illuminate\Support\Facades\Gate;
 
 class BikeController extends Controller
@@ -160,23 +162,23 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bike $bike)
+    public function update(BikeUpdateRequest $request, Bike $bike)
     {
-        $request->validate([
-            'marca' => 'required|max:255',
-            'modelo' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'kms' => 'required|integer',
-            'matriculada' => 'required_with:matricula',
-            'matricula' => 'required_if:matriculada,1|nullable|regex:/^\d{4}[B-Z]{3}$/i|unique:bikes|confirmed',
-            'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
+        // $request->validate([
+        //     'marca' => 'required|max:255',
+        //     'modelo' => 'required|max:255',
+        //     'precio' => 'required|numeric',
+        //     'kms' => 'required|integer',
+        //     'matriculada' => 'required_with:matricula',
+        //     'matricula' => 'required_if:matriculada,1|nullable|regex:/^\d{4}[B-Z]{3}$/i|unique:bikes|confirmed',
+        //     'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
+        //     'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:4096'
 
-        ]);
+        // ]);
 
-        # Autorización mediante policy 
-            if ($request->user()->cant('update', $bike))
-                abort(401, 'No puedes actualizar una moto que no es tuya');
+        // # Autorización mediante policy 
+        //     if ($request->user()->cant('update', $bike))
+        //         abort(401, 'No puedes actualizar una moto que no es tuya');
 
         # Toma los datos del formulario
         $datos = $request->only('marca', 'modelo' , 'kms', 'precio');
@@ -220,7 +222,7 @@ class BikeController extends Controller
 
 
 
-    public function delete(Request $request, Bike $bike){
+    public function delete(BikeDeleteRequest $request, Bike $bike){
 
         # Autorización mediante una GATE
         # Luego la comentaremos para hacer policy
@@ -228,8 +230,8 @@ class BikeController extends Controller
         //     abort(401, 'No puede borrar una moto que no es tuya.');
 
                 # Autorización mediante policy 
-                if ($request->user()->cant('delete', $bike))
-                abort(401, 'No puedes borrar una moto que no es tuya');
+                // if ($request->user()->cant('delete', $bike))
+                // abort(401, 'No puedes borrar una moto que no es tuya');
 
         return view('bikes.delete', ['bike' => $bike]);
     }
