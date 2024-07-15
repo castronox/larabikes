@@ -20,6 +20,10 @@ class BikeController extends Controller
         $this->middleware('auth')->except('index', 'show', 'search');
 
         $this->middleware('throttle:3,1')->only('create');
+
+        $this->middleware('verified')->except('index', 'show', 'search');
+
+        $this->middleware('password.confirm')->only('destroy');
     }
 
 
@@ -103,6 +107,9 @@ class BikeController extends Controller
                 # Nos quedamos solo con el nombre del ficheropara añadirlo a la base de datos
                 $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
+
+        # Recupera el id del usuario identificado y lo guarda en el user_id de la moto
+        $datos['user_id'] = $request->user()->id; 
 
         
         # Creación y guardado de la nueva moto con todos los datos POST
