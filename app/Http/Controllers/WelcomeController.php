@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Bike;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
@@ -13,9 +13,12 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        
+        #Cargar la vista de las 4 ultimas motos
 
-            return view('welcome');
+
+            return view('welcome',[
+                'bikes' => Bike::recent(4)
+            ]);
         
     }
 
