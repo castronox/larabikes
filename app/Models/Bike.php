@@ -19,6 +19,10 @@ class Bike extends Model
     protected $fillable = ['marca', 'modelo', 'kms', 'precio', 'user_id', 
     
     'imagen', 'matriculada', 'matricula', 'color'];
+
+    public function user(){
+        return $this->belongsTo('\App\Models\User');
+    }
 }
 
 
