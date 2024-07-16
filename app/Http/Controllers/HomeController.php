@@ -21,8 +21,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
+
     {
-        return view('home');
+        $bikes = $request->user()->bikes()
+                                ->paginate(config('pagination.bikes', 10));
+        return view('home', ['bikes'=>$bikes]);
     }
 }

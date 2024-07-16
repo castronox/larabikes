@@ -91,6 +91,9 @@
                             <a class="nav-link {{ $pagina == 'bikes.create' ? 'active' : '' }}  "
                                 href="{{ route('bikes.create') }}">Nueva Moto</a>
                         </li>
+                        <li class="nav-item" >
+                            <a class="nav-link {{$pagina=='home' ? 'active':''}}" href="{{route('home')}}">Mis motos</a>
+                        </li>
                         @endauth
                         <li class="nav-item mr-2">
                             <a class="nav-link {{ $pagina == 'contacto' ? 'active' : '' }}"
