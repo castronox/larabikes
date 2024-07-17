@@ -52,4 +52,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('\App\Models\Bike');
     }
 
+    # Métoddo para indicar si un usuario tiene un rol concreto.
+    public function hasRole($roleNames):bool{
+
+        # Si solamente viene un ROL , lo mete en un array
+        if(!is_array($roleNames))
+            $roleNames = [$roleNames];
+
+        # Recorre la lista de roles buscando...
+        foreach($this->roles as $role){
+            if(in_array($role->role, $roleNames))
+                return true;
+        }
+
+        return false; # Si no lo encuentra
+    }
+
+    # Método para saber si un usuario es propietario de una moto
+    
+    public function isOwner(Bike $bike):bool{
+        return $this->id == $bike->user_id;
+    }
+
 }
