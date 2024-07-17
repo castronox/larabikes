@@ -77,7 +77,8 @@ class BikePolicy
      */
     public function restore(User $user, Bike $bike)
     {
-        //
+        #  True si el ususario es el propietario o tiene uno de los roles
+        return $user->isOwner($bike) || $user->hasRole(['administrador', 'todopoderoso']);
     }
 
     /**

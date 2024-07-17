@@ -19,6 +19,12 @@ use App\Http\Controllers\Auth\VerificationController;
 |
 */
 
+# Eliminación definitiva de la moto va por DELETE por varios motivos:
+# Coherencia con las operaciones de delete de Laravel
+# Evitar borrados accidentales
+
+Route::delete('/bikes/purge', [BikeController::class, 'purge'])
+    ->name('bikes.purge');
 
 #CRUD DE MOTOS
 Route::resource('bikes', BikeController::class);
@@ -56,7 +62,16 @@ Route::fallback([WelcomeController::class, 'index']);
 # Ruta de la página del perfil de usuario
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
+# Restauración de moto
+Route::get('/bikes/{bikes}/restore', [BikeController::class, 'restore'])
+    ->name('bikes.restore');
+
 Auth::routes(['verify'=>true]);
+
+
+
 
 
 

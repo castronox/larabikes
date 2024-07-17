@@ -69,10 +69,10 @@
         </div>
         <div class="col-sm-6">
             <label for="inputMatricula" class="form-label">Matrícula</label>
-            <input name="matricula" type="text" class="form-control" id="inputMatricula" maxlength="7" value="{{old('matricula')}}">
+            <input name="matricula" type="text" class="form-control" id="inputMatricula" maxlength="7" value="{{$bike->matricula}}">
 
             <label for="confirmMatricula" class="col-sm-2 form-label">Repetir:</label>
-            <input name="matricula_confirmation" type="text" class="up form-control" id="confirmMatricula" maxlength="7" value="{{old('matricula_confirmation')}}">
+            <input name="matricula_confirmation" type="text" class="up form-control" id="confirmMatricula" maxlength="7" value="{{$bike->matricula}}">
         </div>
     </div>
     <script>

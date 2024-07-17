@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bike;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cookie;
@@ -257,14 +258,54 @@ class BikeController extends Controller
         if ($request->user()->cant('delete', $bike))
             abort(401, 'No puedes borrar una moto que no es tuya');
 
+            $bike->delete();
         #La borra de la base de datos 
-        if( $bike->delete() && $bike->imagen)
-            #Elimina el fichero
-        Storage::delete(config('filesystems.bikesImageDir'). '/' . $bike->imagen);
+        #if( $bike->delete() && $bike->imagen)
+        #Elimina el fichero
+        #Storage::delete(config('filesystems.bikesImageDir'). '/' . $bike->imagen);
 
         # Redirige a la lista de motos
         return redirect ('/bikes')
         ->with ('success', "Moto $bike->marca $bike->marca $bike->modelo eliminada.");
+    }
+
+    public function restore(Request $request, int $id){
+
+        # Recuperar la moto borrada
+        $bike = Bike::withTrashed()->findOrFail($id);
+
+        if($request->user()->cant('restore', $bike))
+            throw new AuthorizationException("You shall not pass !!!");
+
+            $bike->restore();   #Restaura la moto
+
+        return back()->with(
+            'success',
+            "Moto $bike->marca $bike->modelo resturada correctamente"
+        );    
+    }
+
+    public function purge(Request $request){
+        
+        # Recuperar la moto borrada
+        $bike = Bike::withTrashed()->findOrFail($request->input('bike_id'));
+
+
+
+        # Comprobar los permisos mediante la policy
+        if($request->user()->cant('delete', $bike))
+            throw new  AuthorizationException('No tienes permiso');
+
+        # Si consigue eliminar definitivamente la moto y ésta tiene foto...
+        if($bike->forceDelete() && $bike->imagen)
+            # Borra también la foto
+            Storage::delete(config('filesystems.bikesImageDir'). '/' . $bike->imagen);
+        
+        return back()->with(
+            'success',
+            "Moto $bike->marca $bike->modelo eliminada correctamente."
+        );
+
     }
 
     

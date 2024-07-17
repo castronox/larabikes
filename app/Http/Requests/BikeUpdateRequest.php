@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Foundation\Http\FormRequest;
 
-class BikeUpdateRequest extends FormRequest
+
+class BikeUpdateRequest extends BikeRequest
 {
     /**
      * No redefiniré al método authorize(), ya me que me va bien el definido en la clase padre
@@ -31,7 +31,7 @@ class BikeUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        
+                
         # Si usamos el implicit binding, se mapea automáticamente una instancia 
         # del modelo a modo de propiedad de la request
         $id = $this->bike->id;
@@ -39,7 +39,11 @@ class BikeUpdateRequest extends FormRequest
         # También se puede recuperar así : $id = $this->route('bike');
         # Retorna la regla de matrícula modificada y las reglas del padre.
         return [
-            'matricula' => "required_if:matriculada,1|nullable|regex:/^\d{4} [B-Z]{3}$/i|unique:bikes,matrícula,$id"
+            'matricula' => "required_if:matriculada,1|
+            nullable|
+            regex:/^\d{4}[B-Z]{3}$/i|
+            unique:bikes,matricula,$id"
         ]+parent::rules();
-    }
+}
+
 }

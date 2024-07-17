@@ -22,10 +22,15 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-
     {
+        # Recuperar las motos no borradas del usuario
         $bikes = $request->user()->bikes()
-                                ->paginate(config('pagination.bikes', 10));
-        return view('home', ['bikes'=>$bikes]);
+            ->paginate(config('pagination.bikes', 10));
+
+        # Recuperar las motos borradas del usuario
+        $deletedBikes = $request->user()->bikes()->onlyTrashed()->get();
+
+        # Carga la vista de home pasándole las motos
+        return view('home', ['bikes' => $bikes, 'deletedBikes' => $deletedBikes]);
     }
 }
