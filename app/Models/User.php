@@ -43,8 +43,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    # Recupera los roles de usuario
     public function roles(){
         return $this->belongsToMany('App\Models\Role');
+    }
+
+    # Recupera los roles que no tiene el usuario
+    public function remainingRoles(){
+            $actualRoles = $this->roles; # User roles
+            $allRoles = Role::all();     # Todos los roles
+
+            # Retorna todos los roles menos los que ya tiene el usuario
+            return $allRoles->diff($actualRoles);
     }
 
     public function bikes(){
@@ -69,9 +79,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     # Método para saber si un usuario es propietario de una moto
-    
+
     public function isOwner(Bike $bike):bool{
         return $this->id == $bike->user_id;
     }
+
 
 }
