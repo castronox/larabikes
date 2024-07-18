@@ -31,6 +31,19 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function (){
     Route::get('deletedbikes', [AdminController::class, 'deletedBikes'])
         ->name('admin.deleted.bikes');
 
+    # Detelles de usuario
+    Route::get('usuario/{user}/detalles', [AdminController::class, 'userList'])
+            ->name('admin.users');
+    
+    # Listado de usuarios
+    Route::get('usuarios', [AdminController::class, 'userList'])
+            ->name('admin.users');
+    
+    # Busqueda de usuarios
+    Route::get('usuario/buscar', [AdminController::class, 'userSearch'])
+        ->name('admin.users.search');
+
+
 });
 
 
