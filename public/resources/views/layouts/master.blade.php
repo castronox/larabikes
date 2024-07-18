@@ -95,6 +95,11 @@
                         <li class="nav-item mr-2">
                             <a class="nav-link {{$pagina=='admin.deleted.bikes' ? 'active' : ''}} "  href="{{route('admin.deleted.bikes')}}">Motos borradas</a>
                         </li>
+                        <li class="nav-item mr-2">
+                            <a class="nav-link
+                            {{ $pagina=='admin.users' || $pagina='admin.users.search' ? 'active':''}}"
+                            href="{{route('admin.users')}}">Gestión de usuarios</a>
+                        </li>
                         @endif
                         <li class="nav-item" >
                             <a class="nav-link {{$pagina=='home' ? 'active':''}}" href="{{route('home')}}">Mis motos</a>
