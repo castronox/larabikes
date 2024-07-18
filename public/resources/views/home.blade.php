@@ -116,12 +116,11 @@
                     </a>
                 </td>
                 <td class="text-center">
+                    @csrf
                     <a onclick='if(confirm("¿ Estas seguro ?")) this.nextElementSibling.submit();'><button class="btn btn-danger">Eliminar</button></a>
                     <form method="POST" action="{{route('bikes.purge')}}">
-                        @csrf
-                        <input name="_method" type="hidden" value="DELETE">
-                        <input name="bike_id" type="hidden" value="{{$bike->id}}">
-                        <input type="submit" alt="Borrar" title="Eliminar" class="btn btn-danger" value="Eliminar">
+                        
+                    
                     </form>
                 </td>
             </tr>

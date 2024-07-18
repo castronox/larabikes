@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\WelcomeController;
@@ -8,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ContactoController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\VerificationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +21,18 @@ use App\Http\Controllers\Auth\VerificationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+# Grupo de rutas solamente para el administrador
+# Llevarán el prefijo ADMIN
+
+Route::prefix('admin')->middleware('auth', 'is_admin')->group(function (){
+
+    # Ver las motos eliminadas (/admin/deltedbikes) 
+    Route::get('deletedbikes', [AdminController::class, 'deletedBikes'])
+        ->name('admin.deleted.bikes');
+
+});
+
 
 # Eliminación definitiva de la moto va por DELETE por varios motivos:
 # Coherencia con las operaciones de delete de Laravel
