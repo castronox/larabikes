@@ -27,13 +27,13 @@ use App\Http\Controllers\Auth\VerificationController;
 
 Route::prefix('admin')->middleware('auth', 'is_admin')->group(function (){
 
-    # Ver las motos eliminadas (/admin/deltedbikes) 
+    # Ver las motos eliminadas (/admin/deletedbikes) 
     Route::get('deletedbikes', [AdminController::class, 'deletedBikes'])
         ->name('admin.deleted.bikes');
 
-    # Detelles de usuario
-    Route::get('usuario/{user}/detalles', [AdminController::class, 'userList'])
-            ->name('admin.users');
+    # Detalles de usuario
+    Route::get('usuario/{user}/detalles', [AdminController::class, 'userShow'])
+            ->name('admin.user.show');
     
     # Listado de usuarios
     Route::get('usuarios', [AdminController::class, 'userList'])
