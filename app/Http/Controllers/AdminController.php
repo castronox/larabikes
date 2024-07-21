@@ -72,6 +72,25 @@ class AdminController extends Controller
         }
     }
 
+    # Método para quitar roles a los usuarios
+
+    public function removeRole(Request $request){
+        $role = Role::find($request->input('role_id'));
+        $user = User::find($request->input('user_id'));
+
+        # Intenta quitar el rol
+        try{
+            $user->roles()->detach($role->id);
+            return back()
+                ->with('success', "Rol $role->role quitado a $user->name correctamente.");
+
+            # Si no lo consigue            
+        }catch(QueryException $e){
+            return back()
+                ->withErrors("No se pudo quitar el el rol $role->role a $user->name.");
+        }
+    }
+
 
 
     public function deletedBikes()
