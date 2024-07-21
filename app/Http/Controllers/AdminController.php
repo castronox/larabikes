@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bike;
 use App\Models\User;
+use App\Models\Role;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -47,6 +49,28 @@ class AdminController extends Controller
     }
 
 
+    # Método para añadir roles a un usuario
+    public function setRole(Request $request){
+
+        $role = Role::find($request->input('role_id'));
+        $user = User::find($request->input('user_id'));
+
+        # Intenta añadir el rol
+        try{
+            $user->roles()->attach($role->id,[
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            return back()
+                ->with('success', "Rol $role->role añadido a $user->name correctamente");
+        
+        # Si no lo consigue, (use Illuminate\Database\QueryException)
+        }catch(QueryException $e){
+            return back()
+                ->withErrors(" No se pudo añadir el rol de $role->role a $user->name.
+                            Es posible que ya lo tenga.");
+        }
+    }
 
 
 

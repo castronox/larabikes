@@ -43,6 +43,15 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function (){
     Route::get('usuario/buscar', [AdminController::class, 'userSearch'])
         ->name('admin.users.search');
 
+    # Añadir un rol 
+    Route::post('role', [AdminController::class, 'setRole'])
+        ->name('admin.user.setRole');
+
+    # Quitar un rol
+    Route::delete('role', [AdminController::class, 'removeRole'])
+        ->name('admin.user.removeRole');
+
+    
 
 });
 
