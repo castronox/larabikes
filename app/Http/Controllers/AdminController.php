@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
 
@@ -51,9 +51,15 @@ class AdminController extends Controller
 
     # Método para añadir roles a un usuario
     public function setRole(Request $request){
-
+        $admin = Auth::user();
         $role = Role::find($request->input('role_id'));
         $user = User::find($request->input('user_id'));
+
+        # Verificar si el administrador está intentando cambiar sus propios permisos
+        if ($admin->id === $user->id && $role->role === 'bloqueado') {
+            return back()->withErrors("No puedes cambiar tus propios permisos.");
+        }
+
 
         # Intenta añadir el rol
         try{
