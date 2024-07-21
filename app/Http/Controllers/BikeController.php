@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FirstBikeCreated;
 use App\Models\Bike;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -118,6 +119,13 @@ class BikeController extends Controller
         
         # Creación y guardado de la nueva moto con todos los datos POST
         $bike = Bike::create($datos);
+
+        # Si es la primera vez que se crea un moto el usuario
+        # Para hacerlo bien, se debería hacer un campo en la BDD, puesto que así
+        # cada vez que borre y cree la primera moto de activara este evento
+
+        if($request->user()->bikes->count() == 1)
+            FirstBikeCreated::dispatch($bike, $request->user());
 
         # Redirección a los detalles de la moto creada
         return redirect()
