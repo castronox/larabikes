@@ -13,7 +13,10 @@ use App\Http\Requests\BikeRequest;
 use App\Http\Requests\BikeUpdateRequest;
 use App\Http\Requests\BikeDeleteRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
+#use App\Http\Controllers\URL;
 class BikeController extends Controller
 {
 
@@ -242,6 +245,8 @@ class BikeController extends Controller
                 // if ($request->user()->cant('delete', $bike))
                 // abort(401, 'No puedes borrar una moto que no es tuya');
 
+        Session::put('returnTo', URL::previous());
+
         return view('bikes.delete', ['bike' => $bike]);
     }
 
@@ -273,9 +278,24 @@ class BikeController extends Controller
         #Storage::delete(config('filesystems.bikesImageDir'). '/' . $bike->imagen);
 
         # Redirige a la lista de motos
-        return redirect ('/bikes')
-        ->with ('success', "Moto $bike->marca $bike->marca $bike->modelo eliminada.");
-    }
+        #return redirect ('/bikes')
+        #->with ('success', "Moto $bike->marca $bike->marca $bike->modelo eliminada.");
+
+        # Comprobamos si hay que retornar a algún sitio en concreto
+        $redirect = Session::has('returnTo') ?
+                redirect(Session::get('returnTo')) :        # Por URL
+                redirect()->route('bikes.index');           # Por nombre de ruta
+    
+
+    # Usaremos las url si hay parametros adicionales a tener en cuenta
+    # por ejemplo, con la paginación va el número de la página y si usamos el nombre
+    # Iremos al inicio de la lista y no a la página actual.
+
+    Session::remove('returnTo');   # Borramos la var de session si la hubiera
+
+    # Redirige a la operación anterior
+    return $redirect->with('success', "Moto $bike->marca $bike->modelo eliminada.");
+}
 
     public function restore(Request $request, int $id){
 
