@@ -98,19 +98,20 @@ Route::post('/contacto', [ContactoController::class, 'send'])
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
     ->name('bikes.delete');             // Eliminar moto.php 
 
-# Ruta de FALLBACK
-Route::fallback([WelcomeController::class, 'index']);
-
 # Ruta de la página del perfil de usuario
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 
 # Restauración de moto
 Route::get('/bikes/{bikes}/restore', [BikeController::class, 'restore'])
     ->name('bikes.restore');
 
+
 Auth::routes(['verify' => true]);
+
+
+# Ruta de FALLBACK
+Route::fallback([WelcomeController::class, 'index']);
 
 
 
